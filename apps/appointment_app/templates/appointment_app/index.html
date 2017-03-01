@@ -1,0 +1,104 @@
+<!DOCTYPE hmtl>
+<html>
+    <head>
+        <meta charset="utf8" />
+        <meta name="descripition" content="Learning about Django"/>
+        <title>Appointment</title>
+
+        {% load static %}
+        <style>
+            h2{
+              font-size: 25px;
+            }
+            p{
+                font-family: "Times New Roman", Georgia, Serif;
+                color:blue;
+                font-size: 20px;
+             }
+             table, th, td {
+                border: 1px solid black;
+                padding: 7px;
+            }
+            .container{
+              display: inline-block;
+              margin-left: 25px;
+            }
+            .add_logout{
+               font-size: 20px;
+               margin-left: 30px;
+               margin-top: 30px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <h2>Hello,  {{ name }}!</h2>
+
+
+            <div id="my_appoitments">
+                <p>Here are your appointments lists</p>
+                <p>Today is  {{ task_date|date:"D d M Y" }} </p>
+                <table>
+                    <th>Task</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    {% for appointment in current_appointments %}
+                        <tr>
+                            <td>({{appointment.user.name}}) {{appointment.task}}</td>
+                            <td>{{appointment.taskdatetime|date:"H:i"}}</td>
+                            <td>{{appointment.status}}</td>
+                            {% if appointment.status == "Pending" %}
+                                <td>
+                                    <a href="{% url 'promise:show_update' task_id=appointment.id %}" >Edit</a>
+                                    <a href="{% url 'promise:show_delete' task_id=appointment.id %}">Delete</a>
+                                </td>
+
+
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div id="other_appointments">
+                <p>Your other appointments</p>
+                <table>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    {% for appointment in other_appointments %}
+                        <tr>
+                            <td>({{appointment.user.name}}) {{appointment.task}}</td>
+                            <td>{{ appointment.taskdatetime|date:"D d M Y" }}</td>
+                            <td>{{appointment.taskdatetime|date:"H:i"}}</td>
+
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+          </div>
+          <div class="container">
+            <div class="add_logout">
+                  <form  action="{% url 'promise:create' %}"  method="post">
+                      {% csrf_token %}
+                      <h4>Add appointment</h4>
+                        {% for message in messages %}
+                          <p>{{ message }}</p>
+                        {% endfor %}
+                      <label>Date: </label><input type="date" value = "" name="date" placeHolder="MM/DD/YYYY"/> (use calendar)<br>
+                      <label>Time: </label><input type="text" value = "10:30" name="time" placeHolder="HH:MM"/> (like-21:30(MilitaryTime)<br>
+                      <label>Tasks: </label><input type="text" name="task"/><br>
+                      <input type="hidden" name="status" value="Pending"/><br>
+                      <input type="submit" name="add" value="Add"/><br>
+                  </form>
+
+                    <form  action="{% url 'main:logout' %}"  method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="logout"/>
+                    </form>
+              </div>
+          </div>
+    </body>
+</html>

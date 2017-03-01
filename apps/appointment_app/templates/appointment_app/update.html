@@ -1,0 +1,60 @@
+<!DOCTYPE hmtl>
+<html>
+    <head>
+        <meta charset="utf8" />
+        <meta name="descripition" content="Learning about Django"/>
+        <title>update</title>
+
+        {% load static %}
+        <style>
+            label {
+                   font-size: 20px;
+                   font-family: "Times New Roman", Georgia, Serif;
+                   margin:20px;
+                   margin-left:25px;
+                   vertical-align:top;
+            }
+            form input {
+                font-size: 20px;
+                margin-left:40px;
+                margin-bottom:30px;
+            }
+            form input[type=submit] {
+                font-size: 15px;
+                margin-left:200px;
+                margin-top: 20px;
+                height:40px;
+                width:80px;
+                color:black;
+                background-color:skyblue;
+            }
+
+
+
+        </style>
+
+    </head>
+    <body>
+        <div id="container">
+           <form  action="{% url 'promise:update'  task_id=appointment.id %}"  method="post">
+                {% csrf_token %}
+                <h4>Update Appointment</h4>
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                <label>Tasks:</label><input type="text" name="task"/ value='{{appointment.task}}'><br>
+                <label>Status:     </label>
+                <select name="status" value='{{appointment.status}}'>
+                  <option value="Pending">Pending</option>
+                  <option value="Missed">Missed</option>
+                  <option value="Done">Done</option>
+                </select><br><br>
+                <label>Date:</label><input type="date" name="date" placeHolder="MM/DD/YYYY"  value='{{appointment.taskdatetime|date:"m/d/Y"}}'/><br>
+                <label>Time:</label><input type="text" name="time" placeHolder="HH:MM" value='{{appointment.taskdatetime|date:"H:i"}}'/><br>
+                <input type="submit" name="add" value="Update"/><br>
+            </form>
+
+             <a href="{% url 'promise:index' %}">Appointment Status</a>   |      <a href="{% url 'main:logout' %}">Logout</a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE hmtl>
+<html>
+    <head>
+        <meta charset="utf8" />
+        <meta name="descripition" content=""/>
+        <title>Appointment</title>
+
+        {% load static %}
+        <style>
+            .container{
+              display: inline-block;
+              vertical-align: top;
+              border: 1px solid black;
+              margin-left: 20px;
+              padding: 5px;
+            }
+            p{
+              font-size: 25px;
+              font-style: normal;
+              color: red;
+            }
+            label {
+                   font-family: "Times New Roman", Georgia, Serif;
+                   vertical-align:top;
+                   display:inline-block;
+                   width:170px;
+                   text-align:right;
+            }
+            form input {
+                margin-bottom:20px;
+                margin-left:5px;
+            }
+            form input[type=submit] {
+                margin-left:200px;
+                width:90px;
+                color:black;
+                background-color:skyblue;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <form  action="{% url 'main:register' %}"  method="post">
+                {% csrf_token %}
+                <h4> REGISTRATION</h4>
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                <label>Name:</label><input type="text" name="name"/><br>
+                <label>Email:</label><input type="email" name="email"/><br>
+                <label>Password:</label><input type="password" name="password"/><br>
+                <label>Confirm Password:</label><input type="password" name="confirm_ps"/><br>
+                <label>Date Birth:</label><input type="date" name="date_birth" /> (try calendar!)<br>
+                <input type="submit" name="resgiter" value="Resgiter"/><br>
+            </form>
+        </div>
+        <div class="container">
+            <form  action="{% url 'main:login' %}"  method="post">
+                {% csrf_token %}
+                <h3>LOGIN</h3>
+                <label>Email:</label><input type="email" name="email"/><br>
+                <label>Password:</label><input type="password" name="password"/><br>
+                <input type="submit" name="login" value="Login"/><br>
+            </form>
+        </div>
+
+
+    </body>
+</html>
