@@ -118,9 +118,9 @@ class AppointmentManager(models.Manager):
         return
 
 class Appointment(models.Model):
-    user = models.ForeignKey(User, related_name='task_added_by')
-    status = models.CharField(max_length=30)
-    task = models.CharField(max_length=3000)
+    user = models.ForeignKey(User, related_name='task')
+    status = models.CharField(max_length=255)
+    task = models.CharField(max_length=500)
     taskdatetime = models.DateTimeField(auto_now=False, auto_now_add=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
